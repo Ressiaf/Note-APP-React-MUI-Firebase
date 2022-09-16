@@ -1,17 +1,17 @@
+
 import { Box, Toolbar } from '@mui/material'
 import React from 'react'
 import { NavBar, SideBar } from '../components'
 
-const drawerWidth = 240;
 
 export const NotesLayout = ({children}) => {
 
   return (
     <Box sx={{display: 'flex'}} className='animate__animated animate__fadeIn animate__faster'>
 
-        <NavBar drawerWidth={drawerWidth} />
+        <NavBar />
 
-        <SideBar drawerWidth={drawerWidth} />
+        <SideBar />
 
         <Box
             component='main'

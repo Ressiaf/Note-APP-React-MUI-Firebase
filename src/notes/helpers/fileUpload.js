@@ -13,16 +13,13 @@ export const fileUpload = async (file) => {
         contentType: file.type
     };
 
-
     try {
-        
         const uploadTask = await uploadBytes(imgRef, file, metadata);
         const url = await getDownloadURL(uploadTask.ref);
         return {
             url,
             path
         }
-
     } catch (error) {
         console.error(error);
         throw new Error( error.message );

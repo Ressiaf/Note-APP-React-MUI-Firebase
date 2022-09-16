@@ -1,7 +1,9 @@
-import { collection, doc, setDoc, getDocs } from "firebase/firestore/lite"
-import { FirebaseDB } from "../../firebase/config"
+import { async } from "@firebase/util";
+import { collection, doc, setDoc, getDocs, deleteDoc } from "firebase/firestore/lite"
+import { FirebaseDB, FirebaseStorage } from "../../firebase/config"
+import { fileDelete } from "../../notes/helpers/fileDelete";
 import { fileUpload } from "../../notes/helpers/fileUpload";
-import { addNewEmptyNote, setActiveNote, setNotes, setPhotosToActiveNote, startSaving, updateNote } from "./notesSlice";
+import { addNewEmptyNote, deleteNoteById, setActiveNote, setNotes, setPhotosToActiveNote, startSaving, updateNote } from "./notesSlice";
 
 export const startNewNote = () => {
     return async (dispatch, getState)=>{
@@ -77,3 +79,23 @@ export const startUploadingFiles = (files = []) => {
         dispatch(setPhotosToActiveNote(photosUrls));
     }
 }   
+
+export const startDeleteNote = () => {
+    return async (dispatch , getState) => {
+        const { uid } = getState().auth;
+        const {activeNote} = getState().note;
+
+        const docRef = doc(FirebaseDB, `${uid}/notes/note/${activeNote.id}`)
+
+        const fileDeletePromises = [ ];
+        for (const image of activeNote.imagesUrls) {
+            fileDeletePromises.push( fileDelete(image) )
+        }
+
+        await deleteDoc(docRef);
+        await Promise.all( fileDeletePromises );
+        dispatch( deleteNoteById( activeNote.id ) )
+    }
+
+
+}

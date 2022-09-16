@@ -1,4 +1,4 @@
-import { SaveOutlined } from '@mui/icons-material';
+import { DeleteForeverOutlined, SaveOutlined } from '@mui/icons-material';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +8,7 @@ import { UploadImagesButton } from '../components/UploadImagesButton';
 import { useForm } from '../../hooks/useForm';
 import { useEffect, useMemo } from 'react';
 import { setActiveNote } from '../../store/notes/notesSlice';
-import { startSaveNote } from '../../store/notes/thunks';
+import { startDeleteNote, startSaveNote } from '../../store/notes/thunks';
 
 import Swal from 'sweetalert2';
 
@@ -49,6 +49,10 @@ export const NoteView = () => {
         dispatch( startSaveNote() );
     }
 
+    const onDeleteNote = () => {
+        dispatch( startDeleteNote() );
+    }
+
   return (
     <Grid
         container
@@ -71,7 +75,14 @@ export const NoteView = () => {
             >
                 <SaveOutlined sx={{fontSize: 30, mr: 1}} />
                 Guardar
-            </Button>     
+            </Button>  
+            <Button sx={{padding: 2}}
+                onClick={ onDeleteNote }
+                disabled={isSaving}
+            >
+                <DeleteForeverOutlined sx={{fontSize: 30, mr: 1}} />
+                Eliminar Nota
+            </Button>                
         </Grid>
         <Grid container>
             <TextField 
