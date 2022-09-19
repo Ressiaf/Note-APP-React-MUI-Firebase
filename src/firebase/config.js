@@ -4,7 +4,6 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
 import { getEnvironment } from '../notes/helpers/getEnvironment';
 
-
 const {  
 VITE_APIKEY,
 VITE_AUTHDOMAIN,
